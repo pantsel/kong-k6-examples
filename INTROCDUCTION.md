@@ -134,3 +134,4 @@ When defining SLAs and SLOs at a system or component level, there are several te
 - **SLO:** 95% of requests must have a response time below 500ms, considering that the backend service processing time is 350ms on average.
 - **Error Rate Tolerance:** Less than 0.2% of requests are allowed to fail due to backend timeouts or connectivity issues.
 
+
