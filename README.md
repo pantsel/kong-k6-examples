@@ -202,13 +202,6 @@ Run the test:
 k6 run ./k6/soak-test.js
 ```
 
-## Best Practices for Performance Testing
-
-- Run tests in a production-like environment: Ensure the test environment mirrors the production setup as closely as possible.
-- Test with realistic data: Use data that closely simulates real user traffic patterns.
-- Monitor Kong's performance: Use metrics (e.g., latency, memory, CPU) from monitoring tools like Prometheus and Grafana.
-- Gradual Scaling: When scaling Kong, gradually increase the load to test its behavior under stress.
-
 ## Analyzing Performance Test Results
 
 ### Key Metrics to Analyze
