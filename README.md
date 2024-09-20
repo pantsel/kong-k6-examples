@@ -211,6 +211,11 @@ k6 run ./k6/soak-test.js
 - **Throughput**: Requests per second to measure system capacity.
 - **System Resource Usage**: Use external monitoring tools (e.g., Prometheus) to observe CPU, memory, and network usage during tests.
 
+# Useful links
+
+- [Kong performance testing benchmarks](https://docs.konghq.com/gateway/latest/production/performance/performance-testing/)
+- [Kong Public test suite](https://github.com/Kong/kong-gateway-performance-benchmark/tree/main)
+- [Establish a Kong Gateway performance benchmark](https://docs.konghq.com/gateway/3.8.x/production/performance/benchmark/)
 
 
 
