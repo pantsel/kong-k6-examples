@@ -1,0 +1,85 @@
+networks:
+  kong-net:
+    driver: bridge
+
+x-healthcheck: &defautl-healthcheck
+  interval: 10s
+  timeout: 3s
+  start_period: 1s
+
+services:
+  kong:
+    image: kong/kong-gateway:latest
+    container_name: kong
+    restart: always
+    volumes:
+      - ./kong.yaml:/etc/kong/kong.yaml
+    networks:
+      - kong-net
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8443:8443"
+      - "8444:8444"
+      - "8100:8100"
+    environment:
+      KONG_NGINX_WORKER_PROCESSES: 1
+      KONG_PLUGINS: bundled
+      KONG_DATABASE: "off"
+      KONG_PROXY_LISTEN: "0.0.0.0:8000, 0.0.0.0:8443 http2 ssl"
+      KONG_STATUS_LISTEN: "0.0.0.0:8100 http2"
+      KONG_DECLARATIVE_CONFIG: /etc/kong/kong.yaml
+
+  whoami:
+    image: containous/whoami
+    container_name: whoami
+    hostname: whoami
+    networks:
+      - kong-net
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - kong-net
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    networks:
+      - kong-net
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    networks:
+      - kong-net
+    expose:
+      - 9100
+
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    restart: unless-stopped
+    networks:
+      - kong-net
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    expose:
+      - 8080
+
+volumes:
+  grafana-storage:

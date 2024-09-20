@@ -1,0 +1,28 @@
+_format_version: "3.0"
+
+consumers:
+  - username: k6
+    keyauth_credentials:
+    - key: k6test
+
+plugins:
+  - name: prometheus
+    config:
+      per_consumer: true
+      status_code_metrics: true
+      latency_metrics: true
+      bandwidth_metrics: true
+      upstream_health_metrics: true
+
+services:
+  - name: test-service
+    url: http://whoami:80
+    plugins:
+      - name: key-auth
+        config:
+          key_names:
+            - apikey
+    routes:
+      - name: test-route
+        paths:
+          - ~/test$
