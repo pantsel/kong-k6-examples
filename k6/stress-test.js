@@ -4,7 +4,7 @@ import { check, sleep } from 'k6';
 export let options = {
     stages: [
         { duration: '30s', target: 100 },  // Ramp up to 100 users in 30 seconds
-        { duration: '1m', target: 500 },   // Spike to 500 users for 1 minute
+        { duration: '1m', target: 1000 },   // Spike to 1000 users for 1 minute
         { duration: '30s', target: 0 },    // Scale down
     ],
     thresholds: {
