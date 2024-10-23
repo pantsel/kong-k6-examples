@@ -84,25 +84,33 @@ Sustains load for an extended time.
 
 - **SLI:** A specific, measurable value that represents how a system is performing against a service-level objective.
 
-**Example SLI:**
+**SLI examples:**
 
 - "The average response time for requests over the last 24 hours is 450ms."
+- "The error rate for requests over the last 24 hours is 2%."
+- "The system throughput is 1000 requests per second."
+- "The system latency is 50ms."
 
 ### 3. SLO (Service Level Objective)
 
 - **SLO:** An internal performance target that specifies the desired service levels for a system.
 
-**Example SLO:**
+**SLO examples:**
 
 - "95% of requests must have a response time below 500ms."
+- "The error rate must be below 1%."
+- "The system must handle 1000 requests per second."
+- "The system must have a latency of under 100ms."
 
 ### 4. SLA (Service Level Agreement)
 
 - **SLA:** A formal agreement between a service provider and a customer that outlines expected service performance levels and penalties if they are not met.
 
-**Example SLA:**
+**SLA Examples:**
 
 - "We guarantee a response time of 500ms for 95% of requests. If this is not met, we will provide a 10% discount."
+- "We guarantee an error rate of less than 1%. If this is not met, we will provide a month of free service."
+- "We guarantee a system throughput of 1000 requests per second. If this is not met, we will provide a refund."
 
 **Relationship between SLOs and SLAs:**
 
