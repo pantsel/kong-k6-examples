@@ -29,17 +29,29 @@ After everything is up and running:
 Example code:
 
 ```javascript
-import http from 'k6/http';
-import { check, sleep } from 'k6';
-
 export let options = {
-    vus: 100,
-    duration: '10s',
+    scenarios: {
+        normal_load: {
+            executor: 'constant-vus',
+            vus: 50,
+            duration: '10s',
+        },
+        peak_load: {
+            executor: 'ramping-vus',
+            startVUs: 0,
+            stages: [
+                { duration: '10s', target: 200 }, // ramp up to 200 users
+                { duration: '10s', target: 200 }, // hold peak load
+            ],
+        },
+    },
     thresholds: {
-        'http_req_duration': ['p(95)<500'],  // SLO: 95% of requests should be below 500ms
+        'http_req_duration{scenario:load_test}': ['p(95)<400'], // SLO: 95% of requests should be below 400ms during normal load
+        'http_req_duration{scenario:peak_load}': ['p(95)<1000'], // SLO: 95% of requests should be below 1000ms during peak load
         'http_req_failed': ['rate<0.01'],    // SLO: Error rate should be less than 1%
     },
 };
+
 
 export default function () {
     let params = {
@@ -58,7 +70,8 @@ Explanation:
 - **vus**: The number of virtual users simulating requests.
 - **duration**: The test will run for 1 minute.
 - **Thresholds**:
-    - 95% of requests should be completed within 500ms.
+    - 95% of requests should be below 400ms during normal load
+    - 95% of requests should be below 1000ms during peak load
     - Less than 1% of requests should fail.
 
 Run the test:
@@ -78,7 +91,9 @@ import { check, sleep } from 'k6';
 export let options = {
     stages: [
         { duration: '30s', target: 100 },  // Ramp up to 100 users in 30 seconds
-        { duration: '1m', target: 500 },   // Spike to 500 users for 1 minute
+        { duration: '30s', target: 500 },   // Spike to 1000 users for 30 seconds
+        { duration: '30s', target: 1000 },   // Spike to 1000 users for 30 seconds
+        { duration: '30s', target: 10000 },   // Spike to 1000 users for 30 seconds
         { duration: '30s', target: 0 },    // Scale down
     ],
     thresholds: {
