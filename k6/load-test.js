@@ -7,6 +7,7 @@ export let options = {
             executor: 'constant-vus',
             vus: 50,
             duration: '10s',
+            startTime: '0s', // Starts immediately
         },
         peak_load: {
             executor: 'ramping-vus',
@@ -15,6 +16,7 @@ export let options = {
                 { duration: '10s', target: 200 }, // ramp up to 200 users
                 { duration: '10s', target: 200 }, // hold peak load
             ],
+            startTime: '10s', // Start peak load after 10s
         },
     },
     thresholds: {
